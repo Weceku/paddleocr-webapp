@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavender PaddleOCR Web App</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #e6e6fa; /* Light Lavender */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #f9f7f9; /* Very light grey/lavender */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #8a2be2; /* Blue Violet */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: stretch;
+        }
+
+        label {
+            font-weight: bold;
+            color: #6a5acd; /* Slate Blue */
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #ba55d3; /* Medium Orchid */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #9932cc; /* Dark Orchid */
+        }
+
+        h2 {
+            color: #8a2be2; /* Blue Violet */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #f0f0f5; /* Light Grey */
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-size: 16px;
+            line-height: 1.4;
+            border: 1px solid #ddd;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Subtle visual enhancements */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #dda0dd, #ba55d3); /* Light to Medium Orchid gradient */
+            z-index: -1;
+        }
+
+        .upload-section {
+            background-color: #f3e5f5; /* Light Thistle */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .language-select {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PaddleOCR</h1>
+        <div class="upload-section">
+            <form method="POST" enctype="multipart/form-data">
+                <label for="image">Upload Image:</label>
+                <input type="file" name="image" id="image" accept="image/*" required>
+                <div class="language-select">
+                    <label for="lang">Select Recognition Language:</label>
+                    <select name="lang" id="lang">
+                        <option value="ch" >Chinese</option>
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="japan" selected>Japanese</option>
+                        <option value="ko">Korean</option>
+                    </select>
+                </div>
+                <input type="submit" value="Recognize Text">
+            </form>
+        </div>
+
+        {% if visualized_image %}
+        <h2>Visualized Recognition Result:</h2>
+        <img src="data:image/png;base64,{{ visualized_image }}" alt="OCR Result">
+        {% endif %}
+
+        {% if recognized_text %}
+        <h2>Recognized Text:</h2>
+        <pre>{{ recognized_text }}</pre>
+        {% endif %}
+    </div>
+</body>
+</html>
